@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,25 +18,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Contact',
       theme: ThemeData(
-       fontFamily: "Nunito",
-        appBarTheme:  const AppBarTheme(
+        fontFamily: "Nunito",
+        appBarTheme: const AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
           ),
           backgroundColor: ColorConst.appPrimary,
           centerTitle: true,
           elevation: 0.0,
-
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.w500,
             fontFamily: "Nunito",
             fontSize: 20.5,
           ),
-
         ),
-        
         checkboxTheme: CheckboxThemeData(
-          fillColor: MaterialStateProperty.all(ColorConst.appPrimary), 
+          fillColor: MaterialStateProperty.all(ColorConst.appPrimary),
           // checkColor: MaterialStateProperty.all(Colors.pink),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
@@ -50,5 +46,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
