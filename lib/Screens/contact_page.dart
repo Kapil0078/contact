@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:contact/Components/my_text_form_field.dart';
+import 'package:contact/HelperFunctions/my_image_crop.dart';
 import 'package:contact/Screens/select_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,13 +47,22 @@ class _ContactPageState extends State<ContactPage> {
                   ),
                   context: context,
                   builder: (context) {
-                    return ChooseOptionsBottomSheet();
+                    return const ChooseOptionsBottomSheet();
                   },
                 );
                 if (file != null) {
-                  setState(() {
-                    imageFile = file;
-                  });
+                 File? croppedFile =  await  myImageCropper(
+                    file: file,
+                    context: context,
+                  );
+
+                  if(croppedFile!=null){
+                    setState(() {
+                      imageFile = croppedFile;
+                    });
+
+                  }
+
                 }
                 FocusManager.instance.primaryFocus?.unfocus();
               },
