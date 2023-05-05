@@ -13,6 +13,8 @@ class MyTextFormField extends StatelessWidget {
   final int? maxLines;
   final TextInputType? keyboardType;
   final String? hintText;
+  final bool absorbing;
+  final void Function()? onTap;
 
   const MyTextFormField({
     Key? key,
@@ -24,6 +26,8 @@ class MyTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.keyboardType,
     this.hintText,
+    this.absorbing = false,
+    this.onTap,
   }) : super(key: key);
 
   OutlineInputBorder border(
@@ -52,41 +56,47 @@ class MyTextFormField extends StatelessWidget {
               ),
             ),
           ),
-        TextFormField(
-          controller: controller,
-          cursorColor: ColorConst.appPrimary,
-          validator: validator,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          keyboardType: keyboardType,
-          style: MyTextStyle.regular.copyWith(
-            fontSize: 18,
-            color: ColorConst.appPrimary,
-          ),
-          inputFormatters: inputFormatters,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 12,
-            ),
-            hintText: hintText,
-            hintMaxLines: 1,
-            hintStyle: MyTextStyle.regular.copyWith(
-              color: ColorConst.grey,
-              fontSize: 15,
-            ),
-            border: border(
-              width: 0.75,
-            ),
-            focusedBorder: border(
-              color: ColorConst.appPrimary,
-              width: 1.2,
-            ),
-            disabledBorder: border(
-              width: 0.75,
-            ),
-            enabledBorder: border(
-              width: 0.75,
+        InkWell(
+          onTap: absorbing ? onTap : null,
+          child: AbsorbPointer(
+            absorbing: absorbing,
+            child: TextFormField(
+              controller: controller,
+              cursorColor: ColorConst.appPrimary,
+              validator: validator,
+              maxLength: maxLength,
+              maxLines: maxLines,
+              keyboardType: keyboardType,
+              style: MyTextStyle.regular.copyWith(
+                fontSize: 18,
+                color: ColorConst.appPrimary,
+              ),
+              inputFormatters: inputFormatters,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                hintText: hintText,
+                hintMaxLines: 1,
+                hintStyle: MyTextStyle.regular.copyWith(
+                  color: ColorConst.grey,
+                  fontSize: 15,
+                ),
+                border: border(
+                  width: 0.75,
+                ),
+                focusedBorder: border(
+                  color: ColorConst.appPrimary,
+                  width: 1.2,
+                ),
+                disabledBorder: border(
+                  width: 0.75,
+                ),
+                enabledBorder: border(
+                  width: 0.75,
+                ),
+              ),
             ),
           ),
         ),
