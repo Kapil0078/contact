@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'Constants/color_const.dart';
+import 'Screens/contact_input.dart';
 import 'Screens/contact_page.dart';
 
 void main() {
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           materialTapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
-      home: const ContactPage(),
+      home: ContactPage(),
     );
   }
 }

@@ -1,138 +1,43 @@
-import 'dart:io';
-import 'package:contact/Components/my_text_form_field.dart';
-import 'package:contact/HelperFunctions/get_date.dart';
-import 'package:contact/HelperFunctions/my_image_crop.dart';
-import 'package:contact/Screens/select_group.dart';
+import 'dart:developer';
+
+import 'package:contact/Screens/contact_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../Components/choose_options_bottom_sheet.dart';
-import 'Components/select_group_btn.dart';
 
-class ContactPage extends StatefulWidget {
+import '../Constants/color_const.dart';
+
+class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);
-
-  @override
-  State<ContactPage> createState() => _ContactPageState();
-}
-
-class _ContactPageState extends State<ContactPage> {
-  List<String> mySelectedGroup = [];
-  File? imageFile;
-  DateTime? birthDate;
-
-  // controllers
-  TextEditingController nameController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController birthDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Save Contact"),
+        title: const Text("Contacts"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 13,
-          ),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () async {
-                  File? file = await showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    context: context,
-                    builder: (context) {
-                      return const ChooseOptionsBottomSheet();
-                    },
-                  );
-                  if (file != null) {
-                    File? croppedFile = await myImageCropper(
-                      file: file,
-                      context: context,
-                    );
+      floatingActionButton: InkWell(
+        onTap: () async {
+         Map<String,dynamic>? userInfo = await Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => ContactInput(),
+            ),
+          );
 
-                    if (croppedFile != null) {
-                      setState(() {
-                        imageFile = croppedFile;
-                      });
-                    }
-                  }
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                child: Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(80),
-                    color: Colors.black.withOpacity(0.2),
-                  ),
-                  child: ClipOval(
-                    child: imageFile != null
-                        ? Image.file(
-                            imageFile!,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            "assets/Images/placeholder.jpg",
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                ),
-              ),
-              const MyTextFormField(
-                label: "Name",
-                hintText: "Enter your name",
-              ),
-              const SizedBox(height: 20),
-              const MyTextFormField(
-                label: "Mobile Number",
-                hintText: "Enter your mobile number",
-              ),
-              const SizedBox(height: 20),
-              MyTextFormField(
-                label: "Email",
-                hintText: "Enter your email",
-              ),
-              SelectGroupBtn(
-                onTap: () async {
-                  final selected = await Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) {
-                        return SelectGroup(list: mySelectedGroup);
-                      },
-                    ),
-                  );
-                  mySelectedGroup = selected;
-                  setState(() {});
-                },
-              ),
-              MyTextFormField(
-                controller: birthDateController,
-                absorbing: true,
-                label: "Date Of Birth",
-                hintText: "Select date",
-                onTap: () async {
-                  DateTime? date = await getDate(
-                    context: context,
-                    initialDate: birthDate,
-                  );
-                  if (date != null) {
-                    setState(() {
-                      birthDate = date;
-                    });
-                    birthDateController.text = birthDate!.toIso8601String();
-                  }
-                  FocusManager.instance.primaryFocus!.unfocus();
-                },
-              ),
-            ],
+         log('userInfo => $userInfo');
+        },
+        borderRadius: BorderRadius.circular(60),
+        child: Container(
+          width: 60,
+          height: 60,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: ColorConst.appPrimary,
+          ),
+          child: const Icon(
+            Icons.add_call,
+            color: Colors.white,
+            size: 30,
           ),
         ),
       ),

@@ -73,6 +73,7 @@ class MyTextFormField extends StatelessWidget {
               ),
               inputFormatters: inputFormatters,
               decoration: InputDecoration(
+                counterText: "",
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 12,
