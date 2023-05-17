@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Components/custom_icon_btn.dart';
 import '../Constants/color_const.dart';
+import 'Components/user_details.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _ContactPageState extends State<ContactPage> {
           Map<String, dynamic>? userInfo = await Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => ContactInput(),
+              builder: (context) => const ContactInput(),
             ),
           );
 
@@ -70,95 +71,112 @@ class _ContactPageState extends State<ContactPage> {
             final Map<String, dynamic> contact = contactList.elementAt(index);
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                    color: ColorConst.grey400,
-                    width: 0.45,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => UserDetails(
+                        contact: contact,
+                      ),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(5.0),
+                splashColor: ColorConst.appPrimary.withOpacity(0.1),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
                   ),
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: contact["profile"] != null
-                          ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(
-                            color: ColorConst.appPrimary,
-                            width: 0.75,
-                          ),
-                        ),
-                            child: ClipOval(
-                              child: Image.file(
-                                contact["profile"],
-                              ),
-                            ),
-                          )
-                          : Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black.withOpacity(0.35),
-                                border: Border.all(
-                                  width: 0.35,
-                                  color: Colors.black,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    border: Border.all(
+                      color: ColorConst.grey400,
+                      width: 0.45,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: contact["profile"] != null
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                    color: ColorConst.appPrimary,
+                                    width: 0.75,
+                                  ),
                                 ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  contact['name']
-                                      .substring(0, 1)
-                                      .toString()
-                                      .toUpperCase(),
-                                  style: MyTextStyle.bold.copyWith(
-                                    color: ColorConst.black,
-                                    fontSize: 20,
+                                child: ClipOval(
+                                  child: Image.file(
+                                    contact["profile"],
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black.withOpacity(0.35),
+                                  border: Border.all(
+                                    width: 0.35,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    contact['name']
+                                        .substring(0, 1)
+                                        .toString()
+                                        .toUpperCase(),
+                                    style: MyTextStyle.bold.copyWith(
+                                      color: ColorConst.black,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               ),
+                      ),
+                      const SizedBox(width: 15),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            contact['name'],
+                            style: MyTextStyle.semiBold.copyWith(
+                              color: ColorConst.black,
+                              fontSize: 16,
                             ),
-                    ),
-                    SizedBox(width: 15),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          contact['name'],
-                          style: MyTextStyle.semiBold.copyWith(
-                            color: ColorConst.black,
-                            fontSize: 16,
                           ),
-                        ),
-                        Text(
-                          contact['mobile'],
-                          style: MyTextStyle.regular.copyWith(
-                            color: ColorConst.grey,
-                            fontSize: 13.5,
+                          Text(
+                            contact['mobile'],
+                            style: MyTextStyle.regular.copyWith(
+                              color: ColorConst.grey,
+                              fontSize: 13.5,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    CustomIconBtn(
-                      svgPath: "assets/icons/sms.svg",
-                      onTap: () {},
-                    ),
-                    const SizedBox(width: 15),
-                    CustomIconBtn(
-                      svgPath: "assets/icons/phone.svg",
-                      size: 0,
-                      onTap: () {},
-                    ),
-                    const SizedBox(width: 5),
-                  ],
+                        ],
+                      ),
+                      const Spacer(),
+                      CustomIconBtn(
+                        svgPath: "assets/icons/sms.svg",
+                        iconColor: Colors.purple,
+                        background: Colors.purple.withOpacity(0.1),
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 15),
+                      CustomIconBtn(
+                        svgPath: "assets/icons/phone.svg",
+                        iconColor: Colors.blueAccent,
+                        background: Colors.blueAccent.withOpacity(0.1),
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 5),
+                    ],
+                  ),
                 ),
               ),
             );
