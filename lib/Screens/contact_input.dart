@@ -1,9 +1,8 @@
-import 'dart:developer';
+// ignore_for_file: use_build_context_synchronously
 import 'dart:io';
 import 'package:contact/Components/my_text_form_field.dart';
 import 'package:contact/HelperFunctions/get_date.dart';
 import 'package:contact/HelperFunctions/my_image_crop.dart';
-import 'package:contact/HelperFunctions/my_text_style.dart';
 import 'package:contact/Screens/select_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -199,7 +198,7 @@ class _ContactInputState extends State<ContactInput> {
                           'profile': imageFile,
                         };
 
-                         Navigator.pop(context,userInfo);
+                        Navigator.pop(context, userInfo);
                       }
                     },
                     title: "Save",
@@ -213,6 +212,3 @@ class _ContactInputState extends State<ContactInput> {
     );
   }
 }
-
-
-

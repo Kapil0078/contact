@@ -1,5 +1,6 @@
 import 'package:contact/Components/custom_icon_btn.dart';
 import 'package:contact/Components/leading_icon_btn.dart';
+import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
 import 'package:flutter/material.dart';
 import '../../Constants/color_const.dart';
@@ -105,7 +106,9 @@ class UserDetails extends StatelessWidget {
                     iconColor: Colors.blueAccent,
                     background: Colors.blueAccent.withOpacity(0.1),
                     size: 35,
-                    onTap: () {},
+                    onTap: () {
+                      callerLauncher(contact['mobile']);
+                    },
                   ),
                   const SizedBox(width: 10),
                   CustomIconBtn(
@@ -113,13 +116,17 @@ class UserDetails extends StatelessWidget {
                     size: 35,
                     iconColor: Colors.purple,
                     background: Colors.purple.withOpacity(0.1),
-                    onTap: () {},
+                    onTap: () {
+                      smsLauncher(contact['mobile']);
+                    },
                   ),
                   const SizedBox(width: 10),
                   CustomIconBtn(
                     svgPath: "assets/icons/whatsapp2.svg",
                     size: 35,
-                    onTap: () {},
+                    onTap: () async {
+                      whatsappLaunch(contact['mobile']);
+                    },
                     background: Colors.teal.withOpacity(0.1),
                     colorFilter: const ColorFilter.mode(
                       Colors.transparent,
@@ -127,16 +134,19 @@ class UserDetails extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  CustomIconBtn(
-                    svgPath: "assets/icons/mail.svg",
-                    size: 35,
-                    onTap: () {},
-                    background: Colors.redAccent.withOpacity(0.1),
-                    colorFilter: const ColorFilter.mode(
-                      Colors.transparent,
-                      BlendMode.difference,
+                  if (contact["email"].isNotEmpty)
+                    CustomIconBtn(
+                      svgPath: "assets/icons/mail.svg",
+                      size: 35,
+                      onTap: () {
+                        emailLauncher(contact["email"]);
+                      },
+                      background: Colors.redAccent.withOpacity(0.1),
+                      colorFilter: const ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.difference,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

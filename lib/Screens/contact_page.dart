@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
 import 'package:contact/Screens/contact_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../Components/custom_icon_btn.dart';
 import '../Constants/color_const.dart';
 import 'Components/user_details.dart';
@@ -165,14 +167,18 @@ class _ContactPageState extends State<ContactPage> {
                         svgPath: "assets/icons/sms.svg",
                         iconColor: Colors.purple,
                         background: Colors.purple.withOpacity(0.1),
-                        onTap: () {},
+                        onTap: () async {
+                          smsLauncher(contact['mobile']);
+                        },
                       ),
                       const SizedBox(width: 15),
                       CustomIconBtn(
                         svgPath: "assets/icons/phone.svg",
                         iconColor: Colors.blueAccent,
                         background: Colors.blueAccent.withOpacity(0.1),
-                        onTap: () {},
+                        onTap: () {
+                          callerLauncher(contact['mobile']);
+                        },
                       ),
                       const SizedBox(width: 5),
                     ],

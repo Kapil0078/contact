@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           materialTapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
-      home: ContactPage(),
+      home: const ContactPage(),
     );
   }
 }
