@@ -3,10 +3,13 @@ import 'package:contact/Components/leading_icon_btn.dart';
 import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../Constants/color_const.dart';
 
 class UserDetails extends StatelessWidget {
   final Map<String, dynamic> contact;
+
   const UserDetails({
     super.key,
     required this.contact,
@@ -15,6 +18,7 @@ class UserDetails extends StatelessWidget {
   Widget keyValue({
     required String key,
     required String value,
+    void Function()? onTap,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,16 +45,37 @@ class UserDetails extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15.5),
-            child: Text(
-              value,
-              style: MyTextStyle.bold.copyWith(
-                color: ColorConst.black,
-                fontSize: 15.5,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  value,
+                  style: MyTextStyle.bold.copyWith(
+                    color: ColorConst.black,
+                    fontSize: 15.5,
+                  ),
+                ),
+                if (onTap != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: InkWell(
+                      onTap: onTap,
+                      child: const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Icon(
+                          Icons.copy,
+                          size: 20,
+                          color: ColorConst.grey400,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
       );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,13 +184,21 @@ class UserDetails extends StatelessWidget {
             keyValue(
               key: "Mobile",
               value: contact['mobile'],
+              onTap: () async {
+                await Clipboard.setData(ClipboardData(text: contact['mobile']));
+                Fluttertoast.showToast(msg: "Copied");
+              },
             ),
             const SizedBox(height: 10),
             if (contact['email'] != null && contact['email'].isNotEmpty) ...[
               keyValue(
-                key: "E-mail",
-                value: contact['email'],
-              ),
+                  key: "E-mail",
+                  value: contact['email'],
+                  onTap: () async {
+                    await Clipboard.setData(
+                        ClipboardData(text: contact['email']));
+                    Fluttertoast.showToast(msg: "Copied");
+                  }),
               const SizedBox(height: 10),
             ],
             if (contact['dob'] != null && contact['dob'].isNotEmpty) ...[

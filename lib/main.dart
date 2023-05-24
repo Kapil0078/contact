@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
         //   materialTapTargetSize: MaterialTapTargetSize.padded,
         // ),
       ),
-      // home: const ContactPage(),
-      home: const MyLocalStorage(),
+      home: const ContactPage(),
+      // home: const MyLocalStorage(),
     );
   }
 }
