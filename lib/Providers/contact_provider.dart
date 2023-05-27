@@ -15,4 +15,14 @@ class ContactProvider extends ChangeNotifier {
     contactList.remove(contact);
     notifyListeners();
   }
+
+  // updateContact
+  void updateContact({
+    required int index,
+    required Map<String, dynamic> contact,
+  }) {
+    debugPrint('index : $index -> $contact');
+    contactList[index] = contact;
+    notifyListeners();
+  }
 }

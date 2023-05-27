@@ -3,17 +3,25 @@ import 'dart:io';
 import 'package:contact/Components/my_text_form_field.dart';
 import 'package:contact/HelperFunctions/get_date.dart';
 import 'package:contact/HelperFunctions/my_image_crop.dart';
+import 'package:contact/Providers/contact_provider.dart';
 import 'package:contact/Screens/select_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../Components/choose_options_bottom_sheet.dart';
 import '../Components/custom_btn.dart';
 import '../Components/leading_icon_btn.dart';
 import 'Components/select_group_btn.dart';
 
 class ContactInput extends StatefulWidget {
-  const ContactInput({Key? key}) : super(key: key);
+  final Map<String, dynamic>? contact;
+  final int? index;
+  const ContactInput({
+    Key? key,
+    this.contact,
+    this.index,
+  }) : super(key: key);
 
   @override
   State<ContactInput> createState() => _ContactInputState();
@@ -33,13 +41,32 @@ class _ContactInputState extends State<ContactInput> {
   // key
   final formKey = GlobalKey<FormState>();
 
+  // inistate
+
+  @override
+  void initState() {
+    debugPrint('contact -> ${widget.contact}');
+    if (widget.contact != null) {
+      nameController.text = widget.contact!['name'];
+      mobileController.text = widget.contact!['mobile'];
+      emailController.text = widget.contact!['email'];
+      birthDateController.text = widget.contact!["dob"];
+      mySelectedGroup = widget.contact!['group'];
+      imageFile = widget.contact!["profile"];
+      birthDate = DateTime.tryParse(widget.contact!['dob']);
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<ContactProvider>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: const LeadingIconBtn(),
-        title: const Text("Save Contact"),
+        title: Text(widget.contact != null ? "Update Contact" : "Save Contact"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -198,10 +225,25 @@ class _ContactInputState extends State<ContactInput> {
                           'profile': imageFile,
                         };
 
-                        Navigator.pop(context, userInfo);
+                        // contact == null -> Save -> Create
+                        // contact != null -> Update
+
+                        // update
+                        if (widget.contact != null) {
+                          provider.updateContact(
+                            index: widget.index!,
+                            contact: userInfo,
+                          );
+                        }
+                        //  create/Save
+                        else {
+                          provider.createContact(contact: userInfo);
+                        }
+
+                        Navigator.pop(context);
                       }
                     },
-                    title: "Save",
+                    title: widget.contact != null ? "Update" : "Save",
                   ),
                 ),
               ],

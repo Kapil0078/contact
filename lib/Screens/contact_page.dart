@@ -23,16 +23,12 @@ class ContactPage extends StatelessWidget {
       ),
       floatingActionButton: InkWell(
         onTap: () async {
-          Map<String, dynamic>? userInfo = await Navigator.push(
+          await Navigator.push(
             context,
             CupertinoPageRoute(
               builder: (context) => const ContactInput(),
             ),
           );
-
-          if (userInfo != null) {
-            provider.createContact(contact: userInfo);
-          }
         },
         borderRadius: BorderRadius.circular(60),
         child: Container(
@@ -198,7 +194,22 @@ class ContactPage extends StatelessWidget {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                onTap: () {},
+                                onTap: () {
+                                  Future.delayed(
+                                    Duration.zero,
+                                    () async {
+                                      await Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => ContactInput(
+                                            contact: contact,
+                                            index: index,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 value: "Update",
                                 child: Row(
                                   children: [
@@ -225,7 +236,7 @@ class ContactPage extends StatelessWidget {
                                       showDialog(
                                         context: context,
                                         builder: (context) =>
-                                            const ConfirmationPopup(),
+                                            ConfirmationPopup(contact: contact),
                                       );
                                     },
                                   );
