@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
+import 'package:contact/HelperFunctions/shered_pref.dart';
 import 'package:contact/Providers/contact_provider.dart';
 import 'package:contact/Screens/contact_input.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,12 +26,29 @@ class ContactPage extends StatelessWidget {
       ),
       floatingActionButton: InkWell(
         onTap: () async {
-          await Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => const ContactInput(),
-            ),
-          );
+          // await Navigator.push(
+          //   context,
+          //   CupertinoPageRoute(
+          //     builder: (context) => const ContactInput(),
+          //   ),
+          // );
+
+          sheredPref.contact = [
+            jsonEncode(
+              {
+                "name": "સાહિલ",
+                "mobile": "9977885500",
+                "email": "sahiltechnism@gmail.com",
+                "dob": "",
+                "group": [],
+                "profile":
+                    "File: /data/user/0/com.example.contact/cache/image_cropper_1685368524678.jpg",
+              },
+            )
+          ];
+
+          print(sheredPref.contact);
+          print(" => ${context.read<ContactProvider>().contactList}");
         },
         borderRadius: BorderRadius.circular(60),
         child: Container(

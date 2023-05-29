@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:contact/HelperFunctions/shered_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +9,21 @@ import 'Providers/contact_provider.dart';
 import 'Screens/contact_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPref().initPref();
+  sheredPref.contact = [
+    jsonEncode(
+      {
+        "name": "સાહિલ",
+        "mobile": "9977885500",
+        "email": "sahiltechnism@gmail.com",
+        "dob": "",
+        "group": [],
+        "profile":
+            "File: /data/user/0/com.example.contact/cache/image_cropper_1685368524678.jpg",
+      },
+    )
+  ];
   runApp(
     MultiProvider(
       providers: [
