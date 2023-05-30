@@ -6,15 +6,53 @@ class ContactProvider extends ChangeNotifier {
   // final List<Map<String, dynamic>> contactList = [];
 
   // create new user
+  // void createContact({required Map<String, dynamic> contact}) {
+  //   debugPrint('ProviderClass : contact => $contact');
+  //   contactList.add(contact);
+  //   notifyListeners();
+  // }
+
+  // delete user
+  // void deleteContact({required Map<String, dynamic> contact}) {
+  //   contactList.remove(contact);
+  //   notifyListeners();
+  // }
+
+  // updateContact
+  // void updateContact({
+  //   required int index,
+  //   required Map<String, dynamic> contact,
+  // }) {
+  //   debugPrint('index : $index -> $contact');
+  //   contactList[index] = contact;
+  //   notifyListeners();
+  // }
+
+  // ===== with sheredPrefrences
+
+  List<Map<String, dynamic>> get contactList => readFromList();
+
+  List<Map<String, dynamic>> readFromList() {
+    final original = sheredPref.contact;
+    // string to json
+    return List<Map<String, dynamic>>.from(
+        original.map((e) => jsonDecode(e)).toList());
+  }
+
+  // createContact
   void createContact({required Map<String, dynamic> contact}) {
-    debugPrint('ProviderClass : contact => $contact');
-    contactList.add(contact);
+    debugPrint('CreateNew : $contact');
+    final original = sheredPref.contact; // realList
+    original.add(jsonEncode(contact));
+    sheredPref.contact = original; // newList stored in SF.
     notifyListeners();
   }
 
-  // delete user
+  // deleteContact
   void deleteContact({required Map<String, dynamic> contact}) {
-    contactList.remove(contact);
+    final original = sheredPref.contact;
+    original.remove(jsonEncode(contact));
+    sheredPref.contact = original;
     notifyListeners();
   }
 
@@ -23,18 +61,9 @@ class ContactProvider extends ChangeNotifier {
     required int index,
     required Map<String, dynamic> contact,
   }) {
-    debugPrint('index : $index -> $contact');
-    contactList[index] = contact;
+    final original = sheredPref.contact;
+    original[index] = jsonEncode(contact);
+    sheredPref.contact = original;
     notifyListeners();
   }
-
-  // ===== with sheredPrefrences
-
-  List<Map<String, dynamic>> contactList = List<Map<String, dynamic>>.from(
-      sheredPref.contact.map((e) => jsonDecode(e))).toList();
 }
-
-/*
-
-{name: સાહિલ, mobile: 9977885500, email: sahiltechnism@gmail.com, dob: , group: [], profile: File: '/data/user/0/com.example.contact/cache/image_cropper_1685368524678.jpg'}
- */

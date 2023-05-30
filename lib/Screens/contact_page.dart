@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
@@ -26,29 +27,14 @@ class ContactPage extends StatelessWidget {
       ),
       floatingActionButton: InkWell(
         onTap: () async {
-          // await Navigator.push(
-          //   context,
-          //   CupertinoPageRoute(
-          //     builder: (context) => const ContactInput(),
-          //   ),
-          // );
+          await Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => const ContactInput(),
+            ),
+          );
 
-          sheredPref.contact = [
-            jsonEncode(
-              {
-                "name": "સાહિલ",
-                "mobile": "9977885500",
-                "email": "sahiltechnism@gmail.com",
-                "dob": "",
-                "group": [],
-                "profile":
-                    "File: /data/user/0/com.example.contact/cache/image_cropper_1685368524678.jpg",
-              },
-            )
-          ];
-
-          print(sheredPref.contact);
-          print(" => ${context.read<ContactProvider>().contactList}");
+          debugPrint('===> ${sheredPref.contact}');
         },
         borderRadius: BorderRadius.circular(60),
         child: Container(
@@ -125,7 +111,7 @@ class ContactPage extends StatelessWidget {
                                         ),
                                         child: ClipOval(
                                           child: Image.file(
-                                            contact["profile"],
+                                            File(contact["profile"]),
                                           ),
                                         ),
                                       )

@@ -51,8 +51,10 @@ class _ContactInputState extends State<ContactInput> {
       mobileController.text = widget.contact!['mobile'];
       emailController.text = widget.contact!['email'];
       birthDateController.text = widget.contact!["dob"];
-      mySelectedGroup = widget.contact!['group'];
-      imageFile = widget.contact!["profile"];
+      mySelectedGroup = List<String>.from(widget.contact!['group']);
+      imageFile = widget.contact?["profile"] != null
+          ? File(widget.contact!["profile"])
+          : null;
       birthDate = DateTime.tryParse(widget.contact!['dob']);
     }
 
@@ -222,7 +224,7 @@ class _ContactInputState extends State<ContactInput> {
                           'email': emailController.text.trim(),
                           'dob': birthDateController.text.trim(),
                           'group': mySelectedGroup,
-                          'profile': imageFile,
+                          'profile': imageFile != null ? imageFile!.path : null,
                         };
 
                         // contact == null -> Save -> Create

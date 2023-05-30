@@ -7,10 +7,10 @@ class SharedPref {
     pref = pref ?? await SharedPreferences.getInstance();
   }
 
-  // use -> set a list (insert)
+  // set a list (insert)
   set contact(List<String> value) => pref?.setStringList("contact", value);
 
-  // get -> list receive
+  //  list receive
   List<String> get contact => pref?.getStringList("contact") ?? [];
 }
 

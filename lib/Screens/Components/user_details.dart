@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:contact/Components/custom_icon_btn.dart';
 import 'package:contact/Components/leading_icon_btn.dart';
 import 'package:contact/HelperFunctions/launcher_functions.dart';
@@ -108,7 +110,7 @@ class UserDetails extends StatelessWidget {
                         ),
                         child: ClipOval(
                           child: Image.file(
-                            contact["profile"],
+                            File(contact["profile"]),
                             fit: BoxFit.cover,
                           ),
                         ),
