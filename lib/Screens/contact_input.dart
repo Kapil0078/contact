@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:io';
 import 'package:contact/Components/my_text_form_field.dart';
+import 'package:contact/HelperFunctions/date_format.dart';
 import 'package:contact/HelperFunctions/get_date.dart';
 import 'package:contact/HelperFunctions/my_image_crop.dart';
 import 'package:contact/Providers/contact_provider.dart';
@@ -50,12 +51,20 @@ class _ContactInputState extends State<ContactInput> {
       nameController.text = widget.contact!['name'];
       mobileController.text = widget.contact!['mobile'];
       emailController.text = widget.contact!['email'];
-      birthDateController.text = widget.contact!["dob"];
+
       mySelectedGroup = List<String>.from(widget.contact!['group']);
       imageFile = widget.contact?["profile"] != null
           ? File(widget.contact!["profile"])
           : null;
       birthDate = DateTime.tryParse(widget.contact!['dob']);
+
+      if (widget.contact?["dob"] != null && widget.contact!["dob"].isNotEmpty) {
+        birthDateController.text = dateFormate(
+          DateTime.parse(
+            widget.contact!['dob'],
+          ),
+        );
+      }
     }
 
     super.initState();
@@ -207,7 +216,7 @@ class _ContactInputState extends State<ContactInput> {
                       setState(() {
                         birthDate = date;
                       });
-                      birthDateController.text = birthDate!.toIso8601String();
+                      birthDateController.text = dateFormate(birthDate!);
                     }
                     FocusManager.instance.primaryFocus!.unfocus();
                   },
@@ -222,7 +231,9 @@ class _ContactInputState extends State<ContactInput> {
                           'name': nameController.text.trim(),
                           'mobile': mobileController.text.trim(),
                           'email': emailController.text.trim(),
-                          'dob': birthDateController.text.trim(),
+                          'dob': birthDate != null
+                              ? birthDate!.toIso8601String()
+                              : "",
                           'group': mySelectedGroup,
                           'profile': imageFile != null ? imageFile!.path : null,
                         };

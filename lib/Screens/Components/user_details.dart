@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:contact/Components/custom_icon_btn.dart';
 import 'package:contact/Components/leading_icon_btn.dart';
+import 'package:contact/HelperFunctions/date_format.dart';
 import 'package:contact/HelperFunctions/launcher_functions.dart';
 import 'package:contact/HelperFunctions/my_text_style.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,8 @@ class UserDetails extends StatelessWidget {
             if (contact['dob'] != null && contact['dob'].isNotEmpty) ...[
               keyValue(
                 key: "Date of birth",
-                value: contact['dob'],
+                // value: contact['dob'],
+                value: dateFormate(DateTime.parse(contact['dob'])),
               ),
               const SizedBox(height: 10),
             ],

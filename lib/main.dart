@@ -1,4 +1,3 @@
-
 import 'package:contact/HelperFunctions/shered_pref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'Constants/color_const.dart';
 import 'Providers/contact_provider.dart';
 import 'Screens/contact_page.dart';
+import 'Screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
           materialTapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
-      home: const ContactPage(),
-      // home: const MyLocalStorage(),
+      // home: const ContactPage(),
+      home: const SplashScreen(),
     );
   }
 }
